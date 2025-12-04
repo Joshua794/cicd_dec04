@@ -23,4 +23,11 @@ jobs:
       - name: Run tests
         run: pytest
 
+      - name: Run tests with coverage and html report
+        run: pytest --cov=. --cov-retport=term --cov-report=xml \
+            --html=report.html --self-contained-html
+
+      - name: Run tests
+        run: pytest
+
       
