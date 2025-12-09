@@ -8,24 +8,31 @@ on:
 jobs:
   run-test:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.15.0-alpha.2"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run tests
-        run: pytest
+      - name: Run basic tests
+        run: pytest -q
 
-      - name: Run tests with coverage and html report
-        run: pytest --cov=. --cov-retport=term --cov-report=xml \
-            --html=report.html --self-contained-html
+      - name: Run tests with coverage
+        run: |
+          pytest -q \
+            --cov=. \
+            --cov-repot=term \
+            --cov-report=xml \
 
       - name: Run tests
         run: pytest
@@ -35,4 +42,12 @@ jobs:
           mkdir sites
           mv htmlcov sites/
           mv coverage.xml sites/
-      
+
+Deploy:
+  needs: run-tests
+  runs-on: ubuntu-latest
+    permissions:
+      pages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
