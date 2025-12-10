@@ -45,3 +45,15 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./sites
+
+  Deploy:
+    needs: run-test
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+        
+    steps:
+      - name: deploy the artifacts
+        uses: actions/deploy-pages@v4
+        with:
+          path: ./sites
