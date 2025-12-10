@@ -1,53 +1,48 @@
-name: Python CICD
+name: CD
 
 on:
   push:
     branches: [ main ]
-  pull_request:
   
 jobs:
-  run-test:
+  Deploy:
     runs-on: ubuntu-latest
     permissions:
       pages: write
       id-token: write
-    
+        
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+        
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.15.0-alpha.2"
-
+          python-version: "3.10"
+          
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      - name: Run basic tests
-        run: pytest -q
-
+        
       - name: Run tests with coverage
         run: |
           pytest -q \
             --cov=. \
-            --cov-repot=term \
+            --cov-report=term \
             --cov-report=xml \
-
-      - name: Run tests
-        run: pytest
-
+            --cov-report=html \
+            
       - name: Prepare the webpage
-        run:
+        run: |
           mkdir sites
           mv htmlcov sites/
           mv coverage.xml sites/
+          
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./sites
 
-Deploy:
-  needs: run-tests
-  runs-on: ubuntu-latest
-    permissions:
-      pages: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: deploy the artifacts
+        uses: actions/deploy-pages@v4
+        with:
+          path: ./sites
