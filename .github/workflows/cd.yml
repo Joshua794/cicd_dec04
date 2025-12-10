@@ -32,17 +32,12 @@ jobs:
             
       - name: Prepare the webpage
         run: |
-          mkdir sites
-          mv htmlcov sites/
-          mv coverage.xml sites/
+          mkdir -p _site
+          mv htmlcov _site/
+          mv coverage.xml _site/
           
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4
-        with:
-          name: github-pages
-          path: ./sites
 
       - name: deploy the artifacts
         uses: actions/deploy-pages@v4
-        with:
-          path: ./sites
