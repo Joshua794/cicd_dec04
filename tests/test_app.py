@@ -8,7 +8,7 @@ from app import add, sub, mult, div
 
 # ---ADD--- #
 def test_add():
-    assert app.add(5, 6) == 11
+    assert add(5, 6) == 11
 
 def test_add2():
     assert add(5, 6) != 10
