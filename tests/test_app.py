@@ -18,8 +18,8 @@ def test_add2():
 def test_sub():
     assert sub(10, 6) == 4
 
-def test_sub2()
+def test_sub2():
     assert sub(10, 6) != 3
 
-def test_sub3()
+def test_sub3():
     assert sub(10, 6) == -1 * sub(6, 10)
