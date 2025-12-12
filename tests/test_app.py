@@ -47,7 +47,7 @@ def test_log():
 def test_log2():
     assert log(8, 2) == 3
 def test_log3():
-    assert round(log(math.e, 10), 10) == round(1, 10)
+    assert round(log(math.e, math.e), 10) == round(1, 10)
 
 # ---SQUARE--- #
 def test_square():
